@@ -1,10 +1,11 @@
 #pragma semicolon 1
 #include <sourcemod>
-#include <adminmenu>
+#undef REQUIRE_PLUGIN 
+#include <adminmenu> 
 
 #include "include/colors.inc"
 
-new String:PLUGIN_VERSION[56] =  "2.0.3 Alpha Test";
+new String:PLUGIN_VERSION[56] =  "2.0.3PR";
 
 public Plugin:myinfo =
 {

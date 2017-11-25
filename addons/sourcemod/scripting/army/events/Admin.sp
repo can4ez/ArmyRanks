@@ -36,6 +36,10 @@ public Handle_ArmyAdmin(Handle:hMenu, MenuAction:action, client, param2)
 			case 3:Army_Reset(client);
 		}
 	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
+	}
 }
 Army_Reset(client)
 {
@@ -78,12 +82,16 @@ public Handle_ResetM(Handle:hMenu, MenuAction:action, client, iSlot)
 			DisplayMenu(ResetMenu, client, MENU_TIME_FOREVER);
 		}
 	}
-	if (action == MenuAction_Cancel)
+	else if (action == MenuAction_Cancel)
 	{
 		if (iSlot == MenuCancel_ExitBack)
 		{
 			ArmyAdmin(client, 0);
 		}
+	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
 	}
 }
 public Reset(Handle:hMenu, MenuAction:action, client, iSlot)
@@ -122,6 +130,10 @@ public Reset(Handle:hMenu, MenuAction:action, client, iSlot)
 			if (g_bLogs)LogToFile(LOG_ADMIN_RESETPLAYER, "Админ %N обнулил игрока %N", client, target);
 		}
 		else if (iSlot == 1)Army_Reset(client);
+	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
 	}
 }
 public Action:Army_SetRank(client, arg)
@@ -175,6 +187,10 @@ public Handle_ArmySetRank(Handle:hMenu, MenuAction:action, client, param2)
 		{
 			ArmyAdmin(client, 0);
 		}
+	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
 	}
 }
 public HandleArmySetRank(Handle:hMenu, MenuAction:action, client, param2)
@@ -266,6 +282,10 @@ public Handle_ArmyDeath(Handle:hMenu, MenuAction:action, client, param2)
 			ArmyAdmin(client, 0);
 		}
 	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
+	}
 }
 
 /******************************************************************/
@@ -316,6 +336,10 @@ public Handle_ArmyKill(Handle:hMenu, MenuAction:action, client, param2)
 		{
 			ArmyAdmin(client, 0);
 		}
+	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
 	}
 }
 public SetKill(Handle:hMenu, MenuAction:action, client, param2)
@@ -498,62 +522,67 @@ bool:CheckAdminAccess(client, admflagarg)
 	return true;
 }
 /*-------------------------------------------*/
-new Handle:hAdminMenu = INVALID_HANDLE;
-CreateAdminMenu()
-{
-	if (g_bAdminPanel)
-	{
-		new Handle:topmenu;
-		if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != INVALID_HANDLE))
-		{
-			OnAdminMenuReady(topmenu);
-		}
-	}
-}
+new Handle:g_TopMenu = INVALID_HANDLE;
+new TopMenuObject:g_setrankObject; 
+new TopMenuObject:g_killsObject; 
+new TopMenuObject:g_deathObject; 
+new TopMenuObject:g_ResetPlayerObject; 
 
-public OnLibraryRemoved(const String:name[])
+public OnLibraryAdded(const String:name[])
 {
 	if (StrEqual(name, "adminmenu"))
-	{
-		hAdminMenu = INVALID_HANDLE;
-	}
+		OnAdminMenuReady(GetAdminTopMenu());
 }
-
+public OnLibraryRemoved(const String:name[])
+{
+	if (StrEqual(name, "adminmenu"))g_TopMenu = INVALID_HANDLE;
+}
 public OnAdminMenuReady(Handle:topmenu)
 {
-	// Block us from being called twice
-	if (topmenu == hAdminMenu)
-	{
-		return;
-	}
-	hAdminMenu = topmenu;
+	if (!g_bAdminPanel)return;
 	
-	// Now add stuff to the menu: My very own category *yay*
-	new TopMenuObject:admin_category;
-	admin_category = AddToTopMenu(
-		hAdminMenu,  // Menu
-		"army_admin",  // Name
-		TopMenuObject_Category,  // Type
-		Handle_Admin,  // Callback
-		INVALID_TOPMENUOBJECT,  // Parent
-		"",  // cmdName
-		ADMFLAG_ROOT // Admin flag
-		);
+	if (topmenu == INVALID_HANDLE || topmenu == g_TopMenu)return;
 	
-	if (admin_category == INVALID_TOPMENUOBJECT)
+	g_TopMenu = topmenu;
+	
+	new TopMenuObject:hAdminMenuArmyCat = FindTopMenuCategory(g_TopMenu, "army_admin");
+	if (hAdminMenuArmyCat == INVALID_TOPMENUOBJECT)
 	{
-		// Error... lame...
-		return;
+		hAdminMenuArmyCat = AddToTopMenu(g_TopMenu, "army_admin", TopMenuObject_Category, _Category_CallBack, INVALID_TOPMENUOBJECT);
 	}
+	
+	// Добавляем опцию в нашу категорию
+	g_setrankObject = AddToTopMenu(g_TopMenu, "setrank", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	g_killsObject = AddToTopMenu(g_TopMenu, "kills", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	g_deathObject = AddToTopMenu(g_TopMenu, "death", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	g_ResetPlayerObject = AddToTopMenu(g_TopMenu, "ResetPlayer", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
 }
 
-public Handle_Admin(Handle:topmenu, TopMenuAction:action, TopMenuObject:object_id, client, String:buffer[], maxlength)
+public _Category_CallBack(Handle:topmenu, TopMenuAction:action, TopMenuObject:object_id, param, String:buffer[], maxlength)
 {
-	switch (action)
+	if (action == TopMenuAction_DisplayOption)Format(buffer, maxlength, "Админка ARMY");
+	else if (action == TopMenuAction_DisplayTitle)
 	{
-		case TopMenuAction_DisplayTitle:
-		Format(buffer, maxlength, "Админка ARMY", client);
-		case TopMenuAction_DisplayOption:
-		Format(buffer, maxlength, "Админка ARMY", client);
+		SetGlobalTransTarget(param);
+		Format(buffer, maxlength, "%t", "admin_menu_title");
+	}
+}
+public Category_CallBack(Handle:topmenu, TopMenuAction:action, TopMenuObject:object_id, param, String:buffer[], maxlength)
+{
+	if (action == TopMenuAction_DisplayOption)
+	{
+		SetGlobalTransTarget(param);
+		if (g_setrankObject == object_id)Format(buffer, maxlength, "%t", "set_rank_item");
+		else if (object_id == g_killsObject)Format(buffer, maxlength, "%t", "set_kills_item");
+		else if (object_id == g_deathObject)Format(buffer, maxlength, "%t", "set_deaths_item");
+		else if (g_ResetPlayerObject == object_id)Format(buffer, maxlength, "%t", "reset_player_item");
+		
+	}
+	else if (action == TopMenuAction_SelectOption)
+	{
+		if (g_setrankObject == object_id)Army_SetRank(param, 0);
+		else if (object_id == g_killsObject)Army_Kill(param);
+		else if (object_id == g_deathObject)Army_Death(param);
+		else if (g_ResetPlayerObject == object_id)Army_Reset(param);
 	}
 } 

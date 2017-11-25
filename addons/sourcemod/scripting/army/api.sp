@@ -133,7 +133,7 @@ public Native_GetNumAtributes(Handle:plugin, numParams)
 		KvRewind(hKv);
 		if(KvJumpToKey(hKv,g_sRank[client]))
 		{
-			new String:buffer[255];
+			decl String:buffer[255];
 			GetNativeString(2,buffer,255);
 			return KvGetNum(hKv,buffer,GetNativeCell(3));
 		}
@@ -149,7 +149,7 @@ public Native_GetFloatAtributes(Handle:plugin, numParams)
 		KvRewind(hKv);
 		if(KvJumpToKey(hKv,g_sRank[client]))
 		{
-			new String:buffer[2][26];
+			decl String:buffer[2][26];
 			
 			GetNativeString(2,buffer[0],26);
 			GetNativeString(3,buffer[1],4);
@@ -210,7 +210,7 @@ stock bool:CreateDir(const String:Directory[])
 	if(DirExists(Directory)) return true;
 	
 	new iSize = strlen(Directory)+1;
-	new String:sDirectory[iSize];
+	decl String:sDirectory[iSize];
 	strcopy(sDirectory, iSize, Directory);	
 	
 	DeleteLastSlash(sDirectory);
@@ -228,12 +228,12 @@ stock bool:CreateDir(const String:Directory[])
 	}	
 	while(ind <= iSize);
 	
-	new String:sBuffer[slash+1][iSize];
+	decl String:sBuffer[slash+1][iSize];
 	ExplodeString(sDirectory, "/", sBuffer, slash+1, iSize);
 	
 	ind = 0;
 
-	new String:buffer[500] = ".";
+	decl String:buffer[500] = ".";
 	for(ind = 0; ind <= slash; ind++)
 	{
 		Format(buffer, sizeof(buffer), "%s/%s", buffer, sBuffer[ind]);

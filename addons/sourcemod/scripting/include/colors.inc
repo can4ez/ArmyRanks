@@ -342,7 +342,6 @@ stock Color_GetGame()
 
 stock ReplaceColorSay(String:text[], maxlength)
 {
-	ReplaceString(text, maxlength, "{default}", "\x01");
 	ReplaceString(text, maxlength, "{teamcolor}", "\x03");
 	switch(g_ColorsGame)
 	{
@@ -352,6 +351,16 @@ stock ReplaceColorSay(String:text[], maxlength)
 			{
 				ReplaceString(text, maxlength, color_t[i], color_c[i]);
 			}
+			#if CLEAR_ANY_COLORS == 1
+			for(new i=0; i < sizeof(CTag); i++)
+			{
+				ReplaceString(text, maxlength, CTag[i], "");
+			}
+			for(new i=0; i < sizeof(CColor); i++)
+			{
+				ReplaceString(text, maxlength, CColor[i], "");
+			}
+			#endif
 		}
 		case Engine_SourceSDK2006:
 		{
@@ -359,15 +368,36 @@ stock ReplaceColorSay(String:text[], maxlength)
 			{
 				ReplaceString(text, maxlength, CTag[i], CTagCode[i]);
 			}
+			#if CLEAR_ANY_COLORS == 1
+			for(new i=0; i < sizeof(color_t); i++)
+			{
+				ReplaceString(text, maxlength, color_t[i], "");
+			}
+			for(new i=0; i < sizeof(CColor); i++)
+			{
+				ReplaceString(text, maxlength, CColor[i], "");
+			}
+			#endif
 		}
 		case Engine_CSS:
 		{
-			new String:buff[32];
+			ReplaceString(text, maxlength, "{default}", "\x01");
+			decl String:buff[32];
 			for(new i=0; i < sizeof(CColor); i++)
 			{
 				FormatEx(buff, sizeof(buff), "\x07%06X", CColorCode[i]);
 				ReplaceString(text, maxlength, CColor[i], buff);
 			}
+			#if CLEAR_ANY_COLORS == 1
+			for(new i=0; i < sizeof(color_t); i++)
+			{
+				ReplaceString(text, maxlength, color_t[i], "");
+			}
+			for(new i=0; i < sizeof(CTag); i++)
+			{
+				ReplaceString(text, maxlength, CTag[i], "");
+			}
+			#endif
 		}
 		#if CLEAR_ANY_COLORS == 1
 		default:

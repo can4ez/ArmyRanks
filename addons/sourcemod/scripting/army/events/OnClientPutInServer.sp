@@ -110,10 +110,11 @@ public SQLT_OnClientPutInServer(Handle:hOwner, Handle:hQuery, const String:sErro
 		CloseHandle(hWelcomePanel);
 		/*Конец кода приветствия*/
 	}
-	g_hArrayInfoMenu[iClient] = CreateTrie();
-	
-	ClearTrie(g_hArrayInfoMenu[iClient]);
 	CloseHandle(g_hArrayInfoMenu[iClient]);
+	
+	g_hArrayInfoMenu[iClient] = CreateTrie();
+	ClearTrie(g_hArrayInfoMenu[iClient]);
+	
 	Call_StartForward(OnPlayerConnect);
 	Call_PushCell(iClient);
 	Call_PushString(g_sRank[iClient]);

@@ -1,6 +1,5 @@
 public OnAllPluginsLoaded()
 {
-	CreateAdminMenu();
 	Call_StartForward(OnArmyLoad); 
 	Call_Finish();
 }
@@ -26,6 +25,8 @@ public OnPluginStart()
 	LoadTranslations("army_ranks/chat.phrases.txt");
 	LoadTranslations("army_ranks/adminmenu.phrases.txt");
 	LoadTranslations("army_ranks/menu.phrases.txt");
+	
+	if (LibraryExists("adminmenu")) OnAdminMenuReady(GetAdminTopMenu()); 
 }
 
 public Action:Command_Top(iClient, iArgc)
@@ -338,7 +339,11 @@ public Handle_ResetMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 			if(!strcmp(info,"no",true)) Command_Army(iClient, 0);
 		}
 	}
-	if ( action == MenuAction_Cancel ) Command_Army(iClient, 0);
+	else if ( action == MenuAction_Cancel ) Command_Army(iClient, 0);
+	else if(action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
+	}
 }
 public SQLT_OnTotalDisplay(Handle:hOwner, Handle:hQuery, const String:sError[], any:iUserId)
 {
@@ -577,6 +582,10 @@ public Handle_BackToMainMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 			Command_Army(iClient, 0);ClientCmd(iClient,"play buttons/combine_button7.wav");
 		}
 		else ClientCmd(iClient,"play buttons/combine_button7.wav");
+	}
+	if(action == MenuAction_End)
+	{
+		CloseHandle(hMenu);
 	}
 }
 
