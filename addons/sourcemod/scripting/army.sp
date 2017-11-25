@@ -4,7 +4,7 @@
 
 #include <morecolors>
 
-#define PLUGIN_VERSION "2.0.1 Alpha Test"
+#define PLUGIN_VERSION "2.0.2 Alpha Test"
 
 public Plugin:myinfo =
 {

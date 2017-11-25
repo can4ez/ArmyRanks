@@ -313,7 +313,7 @@ public Handle_ResetMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 				g_iNextRankKills[iClient] = GetArrayCell(g_hArray_iKills, g_iRank[iClient]+1);
 				GetArrayString(g_hArray_sRanks, g_iRank[iClient], g_sRank[iClient], sizeof(g_sRank[]));
 				
-				ClearTrie(g_hArrayInfoMenu[iClient]);
+				if(g_hArrayInfoMenu[iClient] != INVALID_HANDLE)	ClearTrie(g_hArrayInfoMenu[iClient]);
 				g_hArrayInfoMenu[iClient] = INVALID_HANDLE;
 				g_hArrayInfoMenu[iClient] = CreateTrie();
 
@@ -326,7 +326,7 @@ public Handle_ResetMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 				decl String:buffer[256];
 				Format(buffer, sizeof(buffer), "%T","player_reset",iClient);
 				CPrintToChatEx(iClient,iClient, buffer);
-				if(g_bLogs && CreateDir(LOG_RESETPLAYER))LogToFile(LOG_RESETPLAYER,"Игрок %N обнулил звание",iClient);
+				if(g_bLogs)LogToFile(LOG_RESETPLAYER,"Игрок %N обнулил звание",iClient);
 				SaveClient(iClient); 
 			}
 			if(!strcmp(info,"no",true)) Command_Army(iClient, 0);
@@ -607,7 +607,7 @@ public Ev_PlayerDeath(Handle:hEvent, const String:sEvName[], bool:bDontBroadcast
 						Call_PushString(g_sRank[iAttker]);
 						Call_PushCell(MODE_RANK_UP);
 						Call_Finish();
-						if(g_bLogs && CreateDir(LOG_RANK_PLAYER_UP))LogToFile(LOG_RANK_PLAYER_UP,"Игрок %N получил новый ранг [%s]",iAttker,g_sRank[iAttker]);
+						if(g_bLogs)LogToFile(LOG_RANK_PLAYER_UP,"Игрок %N получил новый ранг [%s]",iAttker,g_sRank[iAttker]);
 					}
 				}
 			}
@@ -675,17 +675,17 @@ SendInfoRankPanel(iClient)
 {
 	if(g_hArraySortMenu == INVALID_HANDLE)
 	{
-		if(g_bLogs && CreateDir("addons/sourcemod/logs/Army_Core.log"))LogToFile("addons/sourcemod/logs/Army_Core.log","g_hArraySortMenu = INVALID_HANDLE"); 
+		if(g_bLogs)LogToFile("addons/sourcemod/logs/Army_Core.log","g_hArraySortMenu = INVALID_HANDLE"); 
 		return;
 	}
 	if(g_hArrayInfoMenu[iClient] == INVALID_HANDLE)
 	{
-		if(g_bLogs && CreateDir("addons/sourcemod/logs/Army_Core.log"))LogToFile("addons/sourcemod/logs/Army_Core.log","g_hArrayInfoMenu[%N] == INVALID_HANDLE",iClient); 
+		if(g_bLogs)LogToFile("addons/sourcemod/logs/Army_Core.log","g_hArrayInfoMenu[%N] == INVALID_HANDLE",iClient); 
 		return;
 	}
 	if(g_RankInfoPanel != INVALID_HANDLE)
 	{
-		if(g_bLogs && CreateDir("addons/sourcemod/logs/Army_Core.log"))LogToFile("addons/sourcemod/logs/Army_Core.log","g_RankInfoPanel != INVALID_HANDLE"); 
+		if(g_bLogs)LogToFile("addons/sourcemod/logs/Army_Core.log","g_RankInfoPanel != INVALID_HANDLE"); 
 		return;
 	}
 	new ASM_Size = GetArraySize(g_hArraySortMenu);

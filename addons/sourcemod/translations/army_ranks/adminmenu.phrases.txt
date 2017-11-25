@@ -2,43 +2,52 @@
 {
 	"admin_menu_title"
 	{
+		"en"	"Management ranks\n "
 		"ru"	"Управление званиями\n "
 	}
 	
 	"set_rank_item"
 	{
+		"en"	"Set ranks"
 		"ru"	"Установить звание"
 	}
 	"available_ranks_title"
 	{
+		"en"	"Available ranks\n "
 		"ru"	"Доступные звания\n "
 	}
 	
 	"set_kills_item"
 	{
+		"en"	"Set the kills"
 		"ru"	"Установить убийства"
 	}
 	"admin_menu_kill_title"
 	{
+		"en"	"Select number of kills\n "
 		"ru"	"Выберите количество убийств\n "
 	}
 	
 	"set_deaths_item"
 	{
+		"en"	"Set of death\n "
 		"ru"	"Установить смерти\n "
 	}
 	"admin_menu_death_title"
 	{
+		"en"	"Select the number of deaths\n "
 		"ru"	"Выберите количество смертей\n "
 	}
 	
 	"reset_player_item"
 	{
+		"en"	"Reset player"
 		"ru"	"Обнулить игрока"
 	}
 	"reset_player_title"
 	{
 		"#format" "{1:N}"
+		"en"	"Are you sure you want to reset the rank of {1}?\n\n "
 		"ru"	"Вы действительно хотите обнулить звание {1}?\n\n "
 	}
 }

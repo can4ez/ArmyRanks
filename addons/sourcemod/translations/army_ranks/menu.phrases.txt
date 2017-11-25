@@ -132,6 +132,7 @@
 	}
 	"welcome_title"
 	{
+		"en"	".:: Rank System ::."
 		"ru"	".:: Система званий ::."
 	}
 	"welcome_menu"
@@ -139,15 +140,18 @@
 		// {1} - Имя игрока/Nick
 		// {2} - Ранг игрока/Rank Player
 		"#format"	"{1:s},{2:s}"
-		"ru"	"Добро пожаловать, {1}\nВаше звание: [{2}]\nКоманды: !army, rank, top\nПриятной игры!\n "
+		"en"	"Welcome to {1} \nYour rank: [{2}] \nCommands: !army, atop \nHappy games!\n "
+		"ru"	"Добро пожаловать, {1}\nВаше звание: [{2}]\nКоманды: !army, top\nПриятной игры!\n "
 	}
 	
 	"reset_rank_item"
 	{
+		"en"	"Reset rank\n "
 		"ru"	"Обнулить звание\n "
 	}
 	"reset_menu_title"
 	{
+		"en"	"Are you sure you want to reset your rank irrevocably?\n "
 		"ru" "Вы точно хотите обнулить своё звание безвозвратно?\n "
 	}
 	"yes"

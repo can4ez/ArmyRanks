@@ -102,7 +102,7 @@ public Reset(Handle:hMenu, MenuAction:action, client, iSlot)
 			g_iNextRankKills[target] = GetArrayCell(g_hArray_iKills, g_iRank[target]+1);
 			GetArrayString(g_hArray_sRanks, g_iRank[target], g_sRank[target], sizeof(g_sRank[]));
 				
-			ClearTrie(g_hArrayInfoMenu[target]);
+			if(!(g_hArrayInfoMenu[target] == INVALID_HANDLE))ClearTrie(g_hArrayInfoMenu[target]);
 			g_hArrayInfoMenu[target] = INVALID_HANDLE;
 			g_hArrayInfoMenu[target] = CreateTrie();
 
@@ -119,7 +119,7 @@ public Reset(Handle:hMenu, MenuAction:action, client, iSlot)
 			CPrintToChatEx(client,client, buffer);
 			SaveClient(target); 
 			ArmyAdmin(client,0);
-			if(g_bLogs && CreateDir(LOG_ADMIN_RESETPLAYER))LogToFile(LOG_ADMIN_RESETPLAYER,"Админ %N обнулил игрока %N",client,target);
+			if(g_bLogs)LogToFile(LOG_ADMIN_RESETPLAYER,"Админ %N обнулил игрока %N",client,target);
 		}
 		else if(iSlot==1) Army_Reset(client);
 	}
@@ -211,7 +211,7 @@ public HandleArmySetRank(Handle:hMenu, MenuAction:action, client, param2)
 		Call_PushString(g_sRank[target]);
 		Call_PushCell(MODE_RANK_UP);
 		Call_Finish();
-		if(g_bLogs && CreateDir(LOG_ADMIN_SET_RANK))LogToFile(LOG_ADMIN_SET_RANK,"Админ %N устновил игроку %N звание [%s]",client,target,g_sRank[target]);
+		if(g_bLogs)LogToFile(LOG_ADMIN_SET_RANK,"Админ %N устновил игроку %N звание [%s]",client,target,g_sRank[target]);
 	} 
 	else CPrintToChatEx(client,client, "Игрок не найден (вышел с сервера)");
 	ArmyAdmin(client,0);
@@ -223,7 +223,7 @@ public Army_Death(client)
 	// decl String:sBuffer[256];
 	// Format(sBuffer, sizeof(sBuffer), "%T\n\n", "AdminMenu Death Title",client);
 	new Handle:menu = CreateMenu(Handle_ArmyDeath);
-	SetMenuTitle(menu, "%T\n\n", "AdminMenu Death Title",client);
+	SetMenuTitle(menu, "%T\n\n", "admin_menu_death_title",client);
 	SetMenuExitBackButton(menu,true);
 	AddMenuItem(menu, "+1000", "+1000",ITEMDRAW_DEFAULT);
 	AddMenuItem(menu, "+100", "+100",ITEMDRAW_DEFAULT);
@@ -354,7 +354,7 @@ public SetKill(Handle:hMenu, MenuAction:action, client, param2)
 		
 		SaveClient(target);
 		
-		if(g_bLogs && CreateDir(LOG_ADMIN_SET_KILLS))LogToFile(LOG_ADMIN_SET_KILLS,"Админ %N установил игроку %N [%d] убийств ",client,target,g_iKills[target]);
+		if(g_bLogs)LogToFile(LOG_ADMIN_SET_KILLS,"Админ %N установил игроку %N [%d] убийств ",client,target,g_iKills[target]);
 	} 
 	else CPrintToChatEx(client,client, "Игрок не найден (вышел с сервера)");
 	ArmyAdmin(client,0);
@@ -395,7 +395,7 @@ public SetDeath(Handle:hMenu, MenuAction:action, client, param2)
 		Call_PushCell(MODE_SET_DEATHS);
 		Call_Finish();
 		
-		if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N изменил смерти игрока %N на [%d]",client,target,g_iDeaths[target]);
+		if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N изменил смерти игрока %N на [%d]",client,target,g_iDeaths[target]);
 	} 
 	else CPrintToChatEx(client,client, "Игрок не найден (вышел с сервера)");
 	ArmyAdmin(client,0);
@@ -420,19 +420,19 @@ public Action:SetDeaths(client,arg)
 		{
 			g_iDeaths[iclient] = StringToInt(sBuffer[2]);
 			if(iclient)CPrintToChatEx(iclient, iclient, "{green}[{teamcolor}-ARMY-{green}] {default}Ваши {green}смерти{default} установлены {green}[ {default}%d {green}]{default}!",StringToInt(sBuffer[2]));
-			if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N установил игроку %N [%d] смертей",client,iclient,g_iDeaths[iclient]);
+			if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N установил игроку %N [%d] смертей",client,iclient,g_iDeaths[iclient]);
 		}
 		else if(StrEqual(sBuffer[1],"add")||StrEqual(sBuffer[1],"+"))
 		{
 			g_iDeaths[iclient] += StringToInt(sBuffer[2]);
 			if(iclient)CPrintToChatEx(iclient, iclient, "{green}[{teamcolor}-ARMY-{green}] {default}Вам добавлено {green}[ {default}%d {green}]{default} смертей!",StringToInt(sBuffer[2]));
-			if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N добавил игроку %N [%s] смертей (Стало: %d)",client,iclient,sBuffer[2],g_iDeaths[iclient]);
+			if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N добавил игроку %N [%s] смертей (Стало: %d)",client,iclient,sBuffer[2],g_iDeaths[iclient]);
 		}
 		else if(StrEqual(sBuffer[1],"take")||StrEqual(sBuffer[1],"-"))
 		{
 			g_iDeaths[iclient] -= StringToInt(sBuffer[2]);
 			if(iclient)CPrintToChatEx(iclient, iclient, "{green}[{teamcolor}-ARMY-{green}] {default}У вас забрали {green}[ {default}%d {green}]{default} сертей!",StringToInt(sBuffer[2]));
-			if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N забрал у игрока %N [%s] смертей (Стало: %d)",client,iclient,sBuffer[2],g_iDeaths[iclient]);
+			if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N забрал у игрока %N [%s] смертей (Стало: %d)",client,iclient,sBuffer[2],g_iDeaths[iclient]);
 		}
 			
 		SaveClient(iclient);
@@ -458,19 +458,19 @@ public Action:SetKills(client,arg)
 		{
 			g_iKills[iclient] = StringToInt(sBuffer[2]);
 			if(iclient)CPrintToChatEx(iclient, iclient, "{green}[{teamcolor}-ARMY-{green}] {default}Ваши {green}убийства{default} установлены {green}[ {default}%d {green}]!",StringToInt(sBuffer[2]));
-			if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N установил игроку %N [%d] убийств",client,iclient,g_iKills[iclient]);
+			if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N установил игроку %N [%d] убийств",client,iclient,g_iKills[iclient]);
 		}
 		else if(StrEqual(sBuffer[1],"add")||StrEqual(sBuffer[1],"+"))
 		{
 			g_iKills[iclient] += StringToInt(sBuffer[2]);
 			if(iclient)CPrintToChatEx(iclient, iclient, "{green}[{teamcolor}-ARMY-{green}] {default}Вам добавлено {green}[ {green}%d {green}]{default} убийств!",StringToInt(sBuffer[2]));
-			if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N добавил игроку %N [%s] убийств (Стало: %d)",client,iclient,sBuffer[2],g_iKills[iclient]);
+			if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N добавил игроку %N [%s] убийств (Стало: %d)",client,iclient,sBuffer[2],g_iKills[iclient]);
 		}
 		else if(StrEqual(sBuffer[1],"take")||StrEqual(sBuffer[1],"-"))
 		{
 			g_iKills[iclient] -= StringToInt(sBuffer[2]);
 			if(iclient)CPrintToChatEx(iclient, iclient, "{green}[{teamcolor}-ARMY-{green}] {default}У вас забрали {green}[ {default}%d {green}]{default} убийств!",StringToInt(sBuffer[2]));
-			if(g_bLogs && CreateDir(LOG_ADMIN_SET_DEATHS))LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N забрал у игрока %N [%s] убийств (Стало: %d)",client,iclient,sBuffer[2],g_iKills[iclient]);
+			if(g_bLogs)LogToFile(LOG_ADMIN_SET_DEATHS,"Админ %N забрал у игрока %N [%s] убийств (Стало: %d)",client,iclient,sBuffer[2],g_iKills[iclient]);
 		}
 			
 		SaveClient(iclient);

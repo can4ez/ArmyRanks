@@ -45,8 +45,16 @@ public OnConfigsExecuted()
 	// g_iRankType = KvGetNum(hKv,"Rank_Type",0); // 0 - Использовать данные из своей базы | 1 - RankMe | 2 - GameMe
 	
 	KvRewind(hKv);
-	g_bLogs = (KvGetNum(hKv,"LogEnadled",0)==0)?false:true;
 	
+	
+	if(KvGetNum(hKv,"LogEnadled",0)) g_bLogs = true;
+	else g_bLogs = false;
+
+	
+	if(g_bLogs)
+		CreateDir("addons/sourcemod/logs/army_ranks/");
+		
+		
 	KvRewind(hKv);
 	KvGetString(hKv,"Command_army",sBuffer,sizeof(sBuffer),"sm_army");
 	RegConsoleCmd(sBuffer, 	Command_Army);

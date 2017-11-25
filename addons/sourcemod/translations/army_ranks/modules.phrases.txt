@@ -2,70 +2,87 @@
 {
 	"ARMOR"
 	{
+		"en" "Armor"
 		"ru" "Броня"
 	}
 	"TAG"
 	{
+		"en" "Teg"
 		"ru" "Тег"
 	}
 	"OnConnect"
 	{
+		"en"	"{lime} [+] {gold}%N {default} with the title {slategrey} [%s%s {slategrey}] {default} is connected {lightskyblue}!"
 		"ru" "{lime}[+] {gold}%N {default}со званием {slategrey}[%s%s{slategrey}] {default}подключается{lightskyblue}!"
 	}
 	"OnDisconnect"
 	{
+		"en"	"{fullred} [-] {gold}%N {default} with the rank {slategrey} [%s%s {slategrey}] {default}disconnected{lightskyblue}!"
 		"ru" "{fullred}[-] {gold}%N {default}со званием {slategrey}[%s%s{slategrey}] {default}отключился{lightskyblue}!"
 	}
 	"DMG"
 	{
+		"en"	"Damage+"
 		"ru" "Повышение урона"
 	}
 	"GRAVITY"
 	{
+		"en"	"Gravity"
 		"ru" "Гравитация"
 	}
 	"HE"
 	{
+		"en"	"HeGrenade"
 		"ru" "Осколочная"
 	}
 	"FLASH"
 	{
+		"en"	"Flashbang"
 		"ru" "Световая"
 	}
 	"SMOKE"
 	{
+		"en"	"Smoke"
 		"ru" "Дымовая"
 	}
 	"HP"
 	{
+		"en"	"Health"
 		"ru" "Здоровье"
 	}
 	"BHOP"
 	{
+		"en"	"Bhop"
 		"ru" "Распрышка"
 	}
 	"LJ"
 	{
+		"en"	"Long Jump"
 		"ru" "Длинный прыжок"
 	}
 	"RARMOR"
 	{
+		"en"	"Regen Armor"
 		"ru" "Реген. брони"
 	}
 	"RHP"
 	{
+		"en"	"Regen HP"
 		"ru" "Реген. здоровья"
 	}
 	"SHEILD"
 	{
+		"en"	"Sheild"
 		"ru" "Щит"
 	}
 	"SPEED"
 	{
+		"en"	"Speed+"
 		"ru" "Скорость"
 	}
 	"WEAPON"
 	{
+		"en"	"Weapons"
 		"ru" "Оружие"
 	}
 }

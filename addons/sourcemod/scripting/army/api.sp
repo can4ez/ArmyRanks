@@ -207,6 +207,8 @@ public Native_GetLockTeam(Handle:plugin, numParams)
 
 stock bool:CreateDir(const String:Directory[])
 {
+	if(DirExists(Directory)) return true;
+	
 	new iSize = strlen(Directory)+1;
 	new String:sDirectory[iSize];
 	strcopy(sDirectory, iSize, Directory);	
@@ -236,11 +238,14 @@ stock bool:CreateDir(const String:Directory[])
 	{
 		Format(buffer, sizeof(buffer), "%s/%s", buffer, sBuffer[ind]);
 		if(!DirExists(buffer))
+		{
 			CreateDirectory(buffer, FPERM_U_READ+FPERM_U_WRITE+FPERM_U_EXEC+
 											FPERM_G_READ+FPERM_G_WRITE+FPERM_G_EXEC+
 											FPERM_O_READ+FPERM_O_WRITE+FPERM_O_EXEC);
+			CreateDir(Directory);
+		}
 	}
-	if(DirExists(Directory)) return true;
+	
 	return false;
 }
 
