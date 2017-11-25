@@ -1,0 +1,69 @@
+"Phrases"
+{
+	"round_start_msg"
+	{	
+		// {1:d} - Количество необходимых убийств для получения сл. звания
+		// {2:s} - Сл. звание
+		"#format"		"{1:d},{2:s}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Необходимо {olive}{1} {default}убийств до звания {green}[{2}]"
+	}
+	
+	"round_start_msg_player_full"
+	{	
+		"#format"	"{1:s}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Вы достигли {green}МАКСИМАЛЬНОГО {default}звания {green}[{1}]"
+	}
+
+	"rank_up"
+	{	
+		// {1:s} - Полученное звание
+		"#format"		"{1:s}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Вы получили {green}НОВОЕ {default}звание {green}[{1}]"
+	}
+
+	"show_rank1"
+	{	
+		// {1:s} - Звание
+		// {2:d} - Место
+		// {3:d} - Всего игроков
+		"#format"		"{1:s},{2:d},{3:d}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Ваше звание: {green}[{1}] {default}Вы занимаетe {olive}{2}  {default}из {olive}{3} {default}мест"
+	}
+
+	"show_rank2"
+	{	
+		// {1:d} - Kills
+		// {2:d} - Deaths
+		"#format"		"{1:d},{2:d}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Убийств: {olive}{1}{default}, Смертей: {olive}{2}"
+	}
+	
+	"player_is_not_loaded"
+	{	
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {green}Идет загрузка ваших данных..."
+	}
+
+	"player_reset"
+	{	
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Вы {lightgreen}успешно {default}обнулились{green}!"
+	}
+	
+	"team_lock"
+	{	
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Вашей комманде заблогирован доступ к функциям этого плагина!"
+	}
+	
+	"player_is_reset"
+	{
+		//{1:N} - Ник игрока 
+		"#format" "{1:N}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {default}Игрок {green}{1} {default}был {lightgreen}успешно {default}обнулен{green}!"
+	}
+	
+	"player_reset_admin"
+	{
+		//{1:N} - Ник админа
+		"#format" "{1:N}"
+		"ru"	"{green}[{teamcolor}-ARMY-{green}] {green}{1} {lightgreen}обнулил {default}ваше звание{green}!"
+	}
+}

@@ -1,0 +1,71 @@
+"Phrases"
+{
+	"ARMOR"
+	{
+		"ru" "Броня"
+	}
+	"TAG"
+	{
+		"ru" "Тег"
+	}
+	"OnConnect"
+	{
+		"ru" "{lime}[+] {gold}%N {default}со званием {slategrey}[%s%s{slategrey}] {default}подключается{lightskyblue}!"
+	}
+	"OnDisconnect"
+	{
+		"ru" "{fullred}[-] {gold}%N {default}со званием {slategrey}[%s%s{slategrey}] {default}отключился{lightskyblue}!"
+	}
+	"DMG"
+	{
+		"ru" "Повышение урона"
+	}
+	"GRAVITY"
+	{
+		"ru" "Гравитация"
+	}
+	"HE"
+	{
+		"ru" "Осколочная"
+	}
+	"FLASH"
+	{
+		"ru" "Световая"
+	}
+	"SMOKE"
+	{
+		"ru" "Дымовая"
+	}
+	"HP"
+	{
+		"ru" "Здоровье"
+	}
+	"BHOP"
+	{
+		"ru" "Распрышка"
+	}
+	"LJ"
+	{
+		"ru" "Длинный прыжок"
+	}
+	"RARMOR"
+	{
+		"ru" "Реген. брони"
+	}
+	"RHP"
+	{
+		"ru" "Реген. здоровья"
+	}
+	"SHEILD"
+	{
+		"ru" "Щит"
+	}
+	"SPEED"
+	{
+		"ru" "Скорость"
+	}
+	"WEAPON"
+	{
+		"ru" "Оружие"
+	}
+}

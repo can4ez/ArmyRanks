@@ -1,0 +1,169 @@
+"Phrases"
+{
+	"main_menu_title"
+	{
+		"en"	"Menu\n "
+		"ru"	".:: Меню ::.\n "
+	}
+	"my_rank_item"
+	{
+		"en"	"My rank"
+		"ru"	"Моё звание"
+	}
+	"my_rank_title"
+	{
+		"en"	"My rank\n "
+		"ru"	".:: Моё звание ::.\n "
+	}
+	"my_rank_menu"
+	{
+		//{1} - Имя игрока/Nick
+		//{2} - Звание игрока/Rank
+		//{3} - Убийства игрока/Kills
+		//{4} - Смерти игрока/Deaths
+		"#format"	"{1:s},{2:s},{3:d},{4:d}"	
+		"en"	"My rank"
+		"ru"	"Ваш ник: {1}\nВаше звание: [{2}]\nУбийств: {3}\nСмертей: {4}\n "
+	}
+	"feature_item"
+	{
+		"en"	"Features of your rank"
+		"ru"	"Функции звания"
+	}
+	"no_feature_item"
+	{
+		"en"	"Features of your rank"
+		"ru"	" \n Нет активных функций\n " 
+	}
+	"next_rank_item"
+	{
+		"en"	"Next rank"
+		"ru"	"Следующее звание"
+	}
+	"next_rank_title"
+	{
+		"en"	"Next Rank\n "
+		"ru"	".:: Следующее звание ::.\n "
+	}
+	"next_rank_menu"
+	{
+		//{1} - Следующее звание/Next Rank
+		//{2} - Требуется убийств/NextRankKills
+		//{3} - Убийства игрока/Kills
+		"#format"	"{1:s},{2:d},{3:d}"	
+		"en"	"След.звание: [{1}]\nНеобходимо убийств: {2}\nКол. Убийств у вас: {3}\n "
+		"ru"	"Следующее звание: [{1}]\nТребуется убийств: {2}\nУбийств у вас: {3}\n "
+	}
+	"next_rank_menu_max"
+	{
+		"en"	"You have Max Rank\n "
+		"ru"	"Вы достигли максимального звания!\n "
+	}
+	"top_item"
+	{
+		"en"	"Top players"
+		"ru"	"Топ игроков"
+	}
+	"top_title"
+	{
+		"en"	"Top players:\n "
+		"ru"	".:: Топ игроков ::.\n "
+	}
+	"top_menu"
+	{
+		// {1} - Порядовый номер
+		// {2} - Имя
+		// {3} - Завание 
+		// {4} - Коэффицент (Убийства/Смерти)
+		// {5} - Убийства
+		// {6} - Смерти
+		"#format"	"{1:d},{2:s},{3:s},{4:0.1f},{5:d},{6:d}"
+		"en"	"{1}. {2} [{3}] |{5}/{6}|"
+		"ru"	"{1}. {2} [{3}] |{5}/{6}|"
+	}
+	"total_players_item"
+	{
+		"en"	"Total players"
+		"ru"	"Всего игроков\n "
+	}
+	"total_playes_title"
+	{
+		"en"	"Total players:"
+		"ru"	".:: Всего игроков ::.\n "
+	}
+	"total_players_menu"
+	{
+		"#format"	"{1:d},{2:s}"
+		"en"	"Всего игроков: {1}\nПоследний игрок: {2}\n "
+		"ru"	"Всего игроков: {1}\nПоследний игрок: {2}\n "
+	}
+	
+	"available_ranks_title"
+	{
+		"en"	"available_ranks:"
+		"ru"	".:: Доступные звания ::.\n "
+	}
+	"available_ranks_item"
+	{
+		"en"	"Available Ranks"
+		"ru"	"Доступные звания\n "
+	}
+	"available_rank"
+	{
+		// {1} - Звание
+		// {2} - Необходимое количество убийств для звания({1})
+		"#format"		"{1:s},{2:d}"
+		"en"	"[{1}]  Kills: ({2})"
+		"ru"	"[{1}]  Убийств: ({2})"
+	}
+	"available_rank_use"
+	{
+		// {1} - Звание
+		"#format"		"{1:s}"
+		"en"	"[{1}]  [Use]"
+		"ru"	"[{1}]  [Текущее...]"
+	}
+	"available_rank_achieved"
+	{
+		// {1} - Звание
+		"#format"		"{1:s}"
+		"en"	"[{1}]  [Achieved]"
+		"ru"	"[{1}]  [Достигнуто]"
+	}
+	"welcome_title"
+	{
+		"ru"	".:: Система званий ::."
+	}
+	"welcome_menu"
+	{
+		// {1} - Имя игрока/Nick
+		// {2} - Ранг игрока/Rank Player
+		"#format"	"{1:s},{2:s}"
+		"ru"	"Добро пожаловать, {1}\nВаше звание: [{2}]\nКоманды: !army, rank, top\nПриятной игры!\n "
+	}
+	
+	"reset_rank_item"
+	{
+		"ru"	"Обнулить звание\n "
+	}
+	"reset_menu_title"
+	{
+		"ru" "Вы точно хотите обнулить своё звание безвозвратно?\n "
+	}
+	"yes"
+	{
+		"en" "Yes"
+		"ru" "Да"
+	}
+	"no"
+	{
+		"en" "No"
+		"ru" "Нет"
+	}
+	
+	"admin_menu_item"
+	{
+		"en" "Admin menu"
+		"ru" "Меню администратора"
+	}
+}
