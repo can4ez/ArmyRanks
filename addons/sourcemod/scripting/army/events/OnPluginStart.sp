@@ -5,9 +5,7 @@ public OnAllPluginsLoaded()
 }
 
 public OnPluginStart()
-{
-	Format(PLUGIN_VERSION,sizeof(PLUGIN_VERSION),"%s%s",PLUGIN_VERSION,__DATE__);
-	
+{	
 	g_hArray_sRanks = CreateArray(ByteCountToCells(64));
 	g_hArray_iKills = CreateArray();
 	g_hArraySortMenu = CreateArray(ByteCountToCells(64));
@@ -329,12 +327,12 @@ public Handle_ResetMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 				Call_PushString(g_sRank[iClient]);
 				Call_PushCell(MODE_RANK_RESET);
 				Call_Finish();
+				if(g_bLogs)LogToFile(LOG_RESETPLAYER,"Игрок %N обнулил звание",iClient);
+				SaveClient(iClient); 
 				
 				decl String:buffer[256];
 				Format(buffer, sizeof(buffer), "%T","player_reset",iClient);
 				Color_PrintToChatEx(iClient,iClient, buffer);
-				if(g_bLogs)LogToFile(LOG_RESETPLAYER,"Игрок %N обнулил звание",iClient);
-				SaveClient(iClient); 
 			}
 			if(!strcmp(info,"no",true)) Command_Army(iClient, 0);
 		}

@@ -530,22 +530,28 @@ new TopMenuObject:g_ResetPlayerObject;
 
 public OnLibraryAdded(const String:name[])
 {
+	LogMessage("OnLibraryAdded: %s",name);
 	if (StrEqual(name, "adminmenu"))
 		OnAdminMenuReady(GetAdminTopMenu());
 }
 public OnLibraryRemoved(const String:name[])
 {
+	LogMessage("OnLibraryRemoved: %s",name);
 	if (StrEqual(name, "adminmenu"))g_TopMenu = INVALID_HANDLE;
 }
 public OnAdminMenuReady(Handle:topmenu)
 {
-	if (!g_bAdminPanel)return;
+	LogMessage("g_bAdminPanel: %d",g_bAdminPanel);
+	if (g_bAdminPanel == false) return;
+	//LogMessage("topmenu: %h",topmenu);
+	//LogMessage("g_TopMenu: %h",g_TopMenu);
 	
 	if (topmenu == INVALID_HANDLE || topmenu == g_TopMenu)return;
 	
 	g_TopMenu = topmenu;
 	
 	new TopMenuObject:hAdminMenuArmyCat = FindTopMenuCategory(g_TopMenu, "army_admin");
+	//LogMessage("g_TopMenu: %d | %d",g_TopMenu,INVALID_TOPMENUOBJECT);
 	if (hAdminMenuArmyCat == INVALID_TOPMENUOBJECT)
 	{
 		hAdminMenuArmyCat = AddToTopMenu(g_TopMenu, "army_admin", TopMenuObject_Category, _Category_CallBack, INVALID_TOPMENUOBJECT);
@@ -553,9 +559,13 @@ public OnAdminMenuReady(Handle:topmenu)
 	
 	// Добавляем опцию в нашу категорию
 	g_setrankObject = AddToTopMenu(g_TopMenu, "setrank", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	//LogMessage("g_setrankObject: %d",g_setrankObject);
 	g_killsObject = AddToTopMenu(g_TopMenu, "kills", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	//LogMessage("g_killsObject: %d",g_killsObject);
 	g_deathObject = AddToTopMenu(g_TopMenu, "death", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	//LogMessage("g_deathObject: %d",g_deathObject);
 	g_ResetPlayerObject = AddToTopMenu(g_TopMenu, "ResetPlayer", TopMenuObject_Item, Category_CallBack, hAdminMenuArmyCat, "sm_ban", ADMFLAG_BAN);
+	//LogMessage("g_ResetPlayerObject: %d",g_ResetPlayerObject);
 }
 
 public _Category_CallBack(Handle:topmenu, TopMenuAction:action, TopMenuObject:object_id, param, String:buffer[], maxlength)

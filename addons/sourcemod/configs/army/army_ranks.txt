@@ -1,8 +1,8 @@
 "army_ranks"
 {
 	"welcome" "1"
-	"EnabledAdminPanel_sm_admin" "1" // Активировать-ли Админ меню в sm_admin | Изменить можно только перезагрузкой, в событии - OnConfigsExecuted()
-	"EnabledAdminPanel_sm_army" "1" // Активировать-ли Админ меню в sm_army | Изменить можно только перезагрузкой, в событии - OnConfigsExecuted()
+	"sm_admin" "1" // Активировать-ли Админ меню в sm_admin | Изменить можно только перезагрузкой, в событии - OnConfigsExecuted()
+	"sm_army" "1" // Активировать-ли Админ меню в sm_army | Изменить можно только перезагрузкой, в событии - OnConfigsExecuted()
 	"LogEnabled" "1"
 	"Command_army" "sm_army" // Главное меню [-ARMY-]
 	"Command_top" "atop" // Top меню 

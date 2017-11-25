@@ -110,8 +110,6 @@ public SQLT_OnClientPutInServer(Handle:hOwner, Handle:hQuery, const String:sErro
 		CloseHandle(hWelcomePanel);
 		/*Конец кода приветствия*/
 	}
-	CloseHandle(g_hArrayInfoMenu[iClient]);
-	
 	g_hArrayInfoMenu[iClient] = CreateTrie();
 	ClearTrie(g_hArrayInfoMenu[iClient]);
 	

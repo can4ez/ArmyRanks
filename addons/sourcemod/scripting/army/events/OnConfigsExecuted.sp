@@ -19,6 +19,8 @@ public OnConfigsExecuted()
 		LogError("file '%s' empty or not found", sBuffer);
 		SetFailState("file '%s' empty or not found", sBuffer);
 	}
+	
+	
 	if(g_hArray_sRanks!=INVALID_HANDLE)
 	{
 		ClearArray(g_hArray_sRanks);
@@ -45,13 +47,10 @@ public OnConfigsExecuted()
 	// g_iRankType = KvGetNum(hKv,"Rank_Type",0); // 0 - Использовать данные из своей базы | 1 - RankMe | 2 - GameMe
 	
 	KvRewind(hKv);
-	
-	
-	if(KvGetNum(hKv,"EnabledAdminPanel_sm_admin",0)) g_bAdminPanel = true;
-	else g_bAdminPanel = false;
-	
-	if(KvGetNum(hKv,"EnabledAdminPanel_sm_army",0)) g_bAdminPanel2 = true;
-	else g_bAdminPanel2 = false;
+	g_bAdminPanel = bool:KvGetNum(hKv, "sm_admin", 0);
+	LogMessage("g_bAdminPanel: %d | %d",g_bAdminPanel,KvGetNum(hKv, "sm_admin", 0));
+		
+	g_bAdminPanel2 = bool:KvGetNum(hKv, "sm_army", 0);
 	
 	if(KvGetNum(hKv,"LogEnadled",0)) g_bLogs = true;
 	else g_bLogs = false;

@@ -5,14 +5,12 @@
 
 #include "include/colors.inc"
 
-new String:PLUGIN_VERSION[56] =  "2.0.3PR";
-
 public Plugin:myinfo =
 {
-	name 		= "[ ARMY ] Core",
+	name 		= "[ ARMY ] Core 2.0.4PR",
 	author 		= "sahapro33",
 	description = "",
-	version 	= PLUGIN_VERSION,
+	version 	= __DATE__,
 	url 		= ""
 }
 
