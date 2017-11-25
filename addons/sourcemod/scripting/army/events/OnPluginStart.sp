@@ -6,7 +6,9 @@ public OnAllPluginsLoaded()
 }
 
 public OnPluginStart()
-{	
+{
+	Format(PLUGIN_VERSION,sizeof(PLUGIN_VERSION),"%s%s",PLUGIN_VERSION,__DATE__);
+	
 	g_hArray_sRanks = CreateArray(ByteCountToCells(64));
 	g_hArray_iKills = CreateArray();
 	g_hArraySortMenu = CreateArray(ByteCountToCells(64));
@@ -50,6 +52,7 @@ public Action:Command_Army(iClient, iArgc)
 		{
 			if(g_LockTeam != GetClientTeam(iClient) || g_LockTeam == 0)
 			{
+				new Handle:g_hMainMenu;
 				g_hMainMenu = CreateMenu(Handle_MainMenu);
 				
 				Format(sBuffer, sizeof(sBuffer), "%T", "main_menu_title",iClient);
@@ -73,7 +76,7 @@ public Action:Command_Army(iClient, iArgc)
 				Format(sBuffer, sizeof(sBuffer), "%T", "reset_rank_item",iClient);
 				AddMenuItem(g_hMainMenu, "reset", sBuffer);	
 
-				if(CheckAdminAccess(iClient,ADMFLAG_ROOT))
+				if(g_bAdminPanel2 && CheckAdminAccess(iClient,ADMFLAG_ROOT))
 				{
 					Format(sBuffer, sizeof(sBuffer), "%T", "admin_menu_item",iClient);
 					AddMenuItem(g_hMainMenu, "adminmenu", sBuffer);
@@ -84,13 +87,13 @@ public Action:Command_Army(iClient, iArgc)
 			else
 			{
 				Format(sBuffer, sizeof(sBuffer), "%T", "team_lock",iClient);
-				CPrintToChatEx(iClient,iClient, sBuffer);
+				Color_PrintToChatEx(iClient,iClient, sBuffer);
 			}
 		}
 		else
 		{
 			Format(sBuffer, sizeof(sBuffer), "%T", "player_is_not_loaded",iClient);
-			CPrintToChatEx(iClient,iClient, sBuffer);
+			Color_PrintToChatEx(iClient,iClient, sBuffer);
 		}
 	}
 	else
@@ -122,7 +125,7 @@ public Action:Command_Army(iClient, iArgc)
 		// {
 			// decl String:sBuffer[256];
 			// Format(sBuffer, sizeof(sBuffer), "%T", "player_is_not_loaded",iClient);
-			// CPrintToChatEx(iClient,iClient, sBuffer);
+			// Color_PrintToChatEx(iClient,iClient, sBuffer);
 		// }
 	// }
 	// else
@@ -149,9 +152,9 @@ public Action:Command_Army(iClient, iArgc)
 	// {
 		// decl String:sBuffer[256];
 		// Format(sBuffer, sizeof(sBuffer), "%T","show_rank1",iClient,g_sRank[iClient],SQL_GetRowCount(hQuery)+1,g_iTotalPlayers);
-		// CPrintToChatEx(iClient,iClient, sBuffer);
+		// Color_PrintToChatEx(iClient,iClient, sBuffer);
 		// Format(sBuffer, sizeof(sBuffer), "%T","show_rank2",iClient,g_iKills[iClient],g_iDeaths[iClient],g_iKills[iClient]);
-		// CPrintToChatEx(iClient,iClient, sBuffer);
+		// Color_PrintToChatEx(iClient,iClient, sBuffer);
 	// }
 // }
 MyRank(iClient)
@@ -313,7 +316,10 @@ public Handle_ResetMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 				g_iNextRankKills[iClient] = GetArrayCell(g_hArray_iKills, g_iRank[iClient]+1);
 				GetArrayString(g_hArray_sRanks, g_iRank[iClient], g_sRank[iClient], sizeof(g_sRank[]));
 				
-				if(g_hArrayInfoMenu[iClient] != INVALID_HANDLE)	ClearTrie(g_hArrayInfoMenu[iClient]);
+				if(g_hArrayInfoMenu[iClient] != INVALID_HANDLE){
+					ClearTrie(g_hArrayInfoMenu[iClient]);
+					CloseHandle(g_hArrayInfoMenu[iClient]);
+				}
 				g_hArrayInfoMenu[iClient] = INVALID_HANDLE;
 				g_hArrayInfoMenu[iClient] = CreateTrie();
 
@@ -325,7 +331,7 @@ public Handle_ResetMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 				
 				decl String:buffer[256];
 				Format(buffer, sizeof(buffer), "%T","player_reset",iClient);
-				CPrintToChatEx(iClient,iClient, buffer);
+				Color_PrintToChatEx(iClient,iClient, buffer);
 				if(g_bLogs)LogToFile(LOG_RESETPLAYER,"Игрок %N обнулил звание",iClient);
 				SaveClient(iClient); 
 			}
@@ -423,8 +429,12 @@ public SQLT_OnTopDisplay(Handle:hOwner, Handle:hQuery, const String:sError[], an
 		iRank  = SQL_FetchInt(hQuery, 2);
 		iDeath  = SQL_FetchInt(hQuery, 3);
 		KshareD  = SQL_FetchFloat(hQuery, 4);
-		if(iRank < GetArraySize(g_hArray_iKills))GetArrayString(g_hArray_sRanks, iRank, sRank, sizeof(sRank));
-		else GetArrayString(g_hArray_sRanks, iRank-1, sRank, sizeof(sRank));
+		if(iRank < GetArraySize(g_hArray_iKills))
+			GetArrayString(g_hArray_sRanks, iRank, sRank, sizeof(sRank));
+		else
+		{
+			GetArrayString(g_hArray_sRanks, GetArraySize(g_hArray_sRanks)-1, sRank, sizeof(sRank));
+		}
 		Format(sBuffer, sizeof(sBuffer), "%T", "top_menu",iClient, g_iTemp[iClient]*7 + iCount + 1, Name, sRank, KshareD,iKills,iDeath);
 		DrawPanelText(hTopPanel, sBuffer);
 		
@@ -442,6 +452,7 @@ public SQLT_OnTopDisplay(Handle:hOwner, Handle:hQuery, const String:sError[], an
 	SetPanelCurrentKey(hTopPanel, 10);
 	DrawPanelItem(hTopPanel, "Выход");
 	SendPanelToClient(hTopPanel,iClient,Handle_TopMenu,MENU_TIME_FOREVER);
+	CloseHandle(hTopPanel);
 }
 
 public Handle_TopMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
@@ -483,28 +494,49 @@ public Handle_MyRankPanel(Handle:hMenu, MenuAction:action, iClient, iSlot)
 		ClientCmd(iClient,"play buttons/button14.wav");
 		if ( iSlot == 1 )
 		{
-			SendInfoRankPanel(iClient);
+			if(g_hArraySortMenu == INVALID_HANDLE){if(g_bLogs)LogToFile("addons/sourcemod/logs/Army_Core.log","g_hArraySortMenu = INVALID_HANDLE"); return;}
+			if(g_hArrayInfoMenu[iClient] == INVALID_HANDLE){if(g_bLogs)LogToFile("addons/sourcemod/logs/Army_Core.log","g_hArrayInfoMenu[%N] == INVALID_HANDLE",iClient);return;}
+			// if(g_RankInfoPanel != INVALID_HANDLE){if(g_bLogs)LogToFile("addons/sourcemod/logs/Army_Core.log","g_RankInfoPanel != INVALID_HANDLE");return;}
+			
+			new ASM_Size = GetArraySize(g_hArraySortMenu);
+			decl String:buffer[256];
+			new Handle:RankInfoPanel = CreatePanel();
+			new count = 0;
+			for(new i = 0; i < ASM_Size; i++)
+			{
+				if(GetArrayString(g_hArraySortMenu,i,buffer,256))
+				{
+					TrimString(buffer);
+					if(GetTrieString(g_hArrayInfoMenu[iClient],buffer,buffer,256))
+					{
+						DrawPanelText(RankInfoPanel,buffer);
+						count++;
+					}
+				}
+			}
+			Format(buffer,sizeof(buffer),"%T","no_feature_item",iClient);
+			if(count == 0)DrawPanelText(RankInfoPanel,buffer);
 			decl String:sBuffer[256];
 			Format(sBuffer, sizeof(sBuffer), ".:: Функции звания ::.\n-----------------------------------\n\n");
 
-			SetPanelTitle(g_RankInfoPanel, sBuffer);
+			SetPanelTitle(RankInfoPanel, sBuffer);
 					
 			Call_StartForward(OnCreateRankInfo); 
 			Call_PushCell(iClient); 
-			Call_PushCell(g_RankInfoPanel); 
+			Call_PushCell(RankInfoPanel); 
 			Call_Finish();
 			
-			DrawPanelText(g_RankInfoPanel,"-----------------------------------");
-			DrawPanelText(g_RankInfoPanel," ");
-			SetPanelCurrentKey(g_RankInfoPanel, 8);
-			DrawPanelItem(g_RankInfoPanel, "Назад");
-			DrawPanelText(g_RankInfoPanel, " ");
-			SetPanelCurrentKey(g_RankInfoPanel, 10);
-			DrawPanelItem(g_RankInfoPanel, "Выход");
+			DrawPanelText(RankInfoPanel,"-----------------------------------");
+			DrawPanelText(RankInfoPanel," ");
+			SetPanelCurrentKey(RankInfoPanel, 8);
+			DrawPanelItem(RankInfoPanel, "Назад");
+			DrawPanelText(RankInfoPanel, " ");
+			SetPanelCurrentKey(RankInfoPanel, 10);
+			DrawPanelItem(RankInfoPanel, "Выход");
 			
-			SendPanelToClient(g_RankInfoPanel, iClient, Handle_RankInfo, MENU_TIME_FOREVER);		
-			CloseHandle(g_RankInfoPanel);
-			g_RankInfoPanel = INVALID_HANDLE;
+			SendPanelToClient(RankInfoPanel, iClient, Handle_RankInfo, MENU_TIME_FOREVER);		
+			CloseHandle(RankInfoPanel);
+			RankInfoPanel = INVALID_HANDLE;
 		}
 		else if ( iSlot == 8 )
 		{
@@ -549,9 +581,8 @@ public Handle_BackToMainMenu(Handle:hMenu, MenuAction:action, iClient, iSlot)
 }
 
 public Ev_PlayerDeath(Handle:hEvent, const String:sEvName[], bool:bDontBroadcast)
-{	new iClient = GetClientOfUserId(GetEventInt(hEvent, "userid")),
-		iAttker = GetClientOfUserId(GetEventInt(hEvent, "attacker"));
-	
+{	new iClient = GetClientOfUserId(GetEventInt(hEvent, "userid"));
+	new iAttker = GetClientOfUserId(GetEventInt(hEvent, "attacker"));
 	if(!iClient || !iAttker) return;
 	
 	new Cteam	=	GetClientTeam(iClient),
@@ -594,10 +625,12 @@ public Ev_PlayerDeath(Handle:hEvent, const String:sEvName[], bool:bDontBroadcast
 					if(!IsFakeClient(iAttker))
 					{
 						Format(sBuffer, sizeof(sBuffer), "%T","rank_up",iAttker,g_sRank[iAttker]);
-						CPrintToChatEx(iAttker, iAttker,sBuffer);
+						Color_PrintToChatEx(iAttker, iAttker,sBuffer);
 						if(g_hArrayInfoMenu[iAttker]!=INVALID_HANDLE)
 						{
+							// if(IsValidHandle(g_hArrayInfoMenu[iAttker])) 
 							ClearTrie(g_hArrayInfoMenu[iAttker]);
+							CloseHandle(g_hArrayInfoMenu[iAttker]);
 							g_hArrayInfoMenu[iAttker] = INVALID_HANDLE;
 							g_hArrayInfoMenu[iAttker] = CreateTrie();
 						}
@@ -651,18 +684,18 @@ public Ev_PlayerSpawn(Handle:hEvent, const String:sEvName[], bool:bDontBroadcast
 	{
 		
 		decl String:sBuffer[256];
-		decl String:sNextRank[32];
+		decl String:sNextRank[32*2];
 		new count = g_iNextRankKills[iClient] - g_iKills[iClient];
 		
 		if(g_iRank[iClient] < GetArraySize(g_hArray_iKills)-1)
 		{
 			GetArrayString(g_hArray_sRanks, g_iRank[iClient]+1, sNextRank, sizeof(sNextRank));
 			FormatEx(sBuffer, sizeof(sBuffer), "%T","round_start_msg",iClient,count, sNextRank);
-			CPrintToChatEx(iClient,iClient,sBuffer);
+			Color_PrintToChatEx(iClient,iClient,sBuffer);
 		}
 		else{
 			FormatEx(sBuffer, sizeof(sBuffer), "%T","round_start_msg_player_full",iClient,g_sRank[iClient]);
-			CPrintToChatEx(iClient,iClient,sBuffer);
+			Color_PrintToChatEx(iClient,iClient,sBuffer);
 		}
 
 		Call_StartForward(OnPlayerSpawn); 
@@ -670,7 +703,7 @@ public Ev_PlayerSpawn(Handle:hEvent, const String:sEvName[], bool:bDontBroadcast
 		Call_Finish();
 	}
 }
-
+/*
 SendInfoRankPanel(iClient)
 {
 	if(g_hArraySortMenu == INVALID_HANDLE)
@@ -706,8 +739,9 @@ SendInfoRankPanel(iClient)
 	}
 	Format(buffer,sizeof(buffer),"%T","no_feature_item",iClient);
 	if(count == 0)DrawPanelText(g_RankInfoPanel,buffer);
+	
 }
-
+*/
 ClientCmd(client,const String:dir[])
 {
 	if(0 < client <= MaxClients && IsClientInGame(client)) ClientCommand(client,dir);

@@ -2,9 +2,9 @@
 #include <sourcemod>
 #include <adminmenu>
 
-#include <morecolors>
+#include "include/colors.inc"
 
-#define PLUGIN_VERSION "2.0.2 Alpha Test"
+new String:PLUGIN_VERSION[56] =  "2.0.3 Alpha Test";
 
 public Plugin:myinfo =
 {

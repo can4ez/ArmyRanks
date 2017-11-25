@@ -47,8 +47,17 @@ public OnConfigsExecuted()
 	KvRewind(hKv);
 	
 	
+	if(KvGetNum(hKv,"EnabledAdminPanel_sm_admin",0)) g_bAdminPanel = true;
+	else g_bAdminPanel = false;
+	
+	if(KvGetNum(hKv,"EnabledAdminPanel_sm_army",0)) g_bAdminPanel2 = true;
+	else g_bAdminPanel2 = false;
+	
 	if(KvGetNum(hKv,"LogEnadled",0)) g_bLogs = true;
 	else g_bLogs = false;
+	
+	if(KvGetNum(hKv,"Welcome",0)) g_bWelcomePanel = true;
+	else g_bWelcomePanel = false;
 
 	
 	if(g_bLogs)

@@ -1,9 +1,8 @@
 new Handle: hKv,
-	Handle:	g_hMainMenu,
 	Handle:	g_hSQLdb,
 	Handle:	g_hArray_sRanks,
 	Handle:	g_hArray_iKills,
-	Handle: g_RankInfoPanel,
+	// Handle: g_RankInfoPanel,
 	
 	Handle: OnArmyLoad,
 	
@@ -21,10 +20,13 @@ new Handle: hKv,
 	Handle: g_hArraySortMenu,
 
 	String:	g_sAuth[MAXPLAYERS+1][32],
-	String:	g_sRank[MAXPLAYERS+1][36],
+	String:	g_sRank[MAXPLAYERS+1][32*2],
 	bool:	g_bLoaded[MAXPLAYERS+1],
 	
 	bool:	g_bLogs = false,
+	bool:	g_bAdminPanel = false,
+	bool:	g_bAdminPanel2 = false,
+	bool:	g_bWelcomePanel = false,
 			g_WelcomePanelTime = 5,
 	 		g_iKills[MAXPLAYERS+1],
 			g_iDeaths[MAXPLAYERS+1],
