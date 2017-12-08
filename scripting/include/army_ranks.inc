@@ -81,9 +81,16 @@ native bool:Army_GetStringRank(client,const String:buffer[]);
 native Handle:Army_GetKv();
 
 /*
- * Получаем номер разрушоной команды.
+ * Получаем номер запрещенной команды.
  */
 native Army_GetLockTeam();
+
+/*
+ * 1 - Модуль должен быть включен на этой карте
+ * 0 - Модуль должен быть выключен на этой карте
+ * -1 - Произошла ошибка чтения строки из натива
+ */
+native Army_GetMapSettings(const String:key[]);
 
 native Army_GetClientKills(client);
 native Army_GetClientDeaths(client);

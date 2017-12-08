@@ -7,13 +7,21 @@ public Plugin:myinfo =
     name = "[ ARMY ] Модель/Model",
     author = "sahapro33",
     description = "",
-    version = "1.0"
+    version = "1.1"
+}
+
+new bool:g_bActive_Model_CT = false;
+new bool:g_bActive_Model_T = false;
+public ARMY_OnLoad()
+{
+	g_bActive_Model_CT = (Army_GetMapSettings("Model_CT") == 1);
+	g_bActive_Model_T = (Army_GetMapSettings("Model_T") == 1);
 }
 
 public ARMY_ArmyUp(client)
 {
 	decl String:Model[256];
-	if(Army_GetStringAtributes(client,"Model_CT","",Model))
+	if(g_bActive_Model_CT && Army_GetStringAtributes(client,"Model_CT","",Model))
 	{
 		if (StrContains(Model,"models/",true)!=-1)
 		{
@@ -21,7 +29,7 @@ public ARMY_ArmyUp(client)
 			Army_RegisterItem(client,"Model_CT",Model);
 		}
 	}
-	if(Army_GetStringAtributes(client,"Model_T","0",Model))
+	if(g_bActive_Model_T && Army_GetStringAtributes(client,"Model_T","0",Model))
 	{
 		if (StrContains(Model,"models/",true)!=-1)
 		{
@@ -33,7 +41,7 @@ public ARMY_ArmyUp(client)
 public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
 {
 	decl String:Model[256];
-	if(Army_GetStringAtributes(client,"Model_CT","0",Model))
+	if(g_bActive_Model_CT && Army_GetStringAtributes(client,"Model_CT","0",Model))
 	{
 		if(StrContains(Model,"models/",true)!=-1)
 		{
@@ -41,7 +49,7 @@ public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
 			Army_RegisterItem(client,"Model_CT",Model);
 		}
 	}
-	if(Army_GetStringAtributes(client,"Model_T","0",Model))
+	if(g_bActive_Model_T && Army_GetStringAtributes(client,"Model_T","0",Model))
 	{
 		if(StrContains(Model,"models/",true)!=-1)
 		{
@@ -84,6 +92,7 @@ SetModel(client)
 	{
 		case 2:
 		{
+			if (!g_bActive_Model_T)return;
 			if(!Army_GetStringAtributes(client,"Model_T","",Model))
 			{
 				if(StrContains(Model,"models/",true)==-1)return;
@@ -91,6 +100,7 @@ SetModel(client)
 		}
 		case 3:
 		{
+			if (!g_bActive_Model_CT)return;
 			if(!Army_GetStringAtributes(client,"Model_CT","",Model))
 			{
 				if(StrContains(Model,"models/",true)==-1)return;

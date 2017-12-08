@@ -13,13 +13,20 @@ public Plugin:myinfo =
     name = "[ ARMY ] Оружие/Weapons",
     author = "sahapro33",
     description = "",
-    version = "1.3"
+    version = "1.4"
 }
 
-public ARMY_OnLoad() LoadTranslations("army_ranks/modules.phrases.txt");
+new bool:g_bActive = false;
+public ARMY_OnLoad()
+{
+	LoadTranslations("army_ranks/modules.phrases.txt");
+	g_bActive = (Army_GetMapSettings("Weapon") == 1);
+}
+
 
 public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
 {
+	if (!g_bActive)return;
 	if(Army_GetNumAtributes(client,"WeaponCount",-1) > 0)
 	{
 		decl String:Buffer[100];
@@ -30,6 +37,7 @@ public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
 
 public ARMY_ArmyUp(client)
 {
+	if (!g_bActive)return;
 	if(Army_GetNumAtributes(client,"WeaponCount",-1) > 0)
 	{
 		decl String:Buffer[100];
@@ -40,11 +48,13 @@ public ARMY_ArmyUp(client)
 
 public ARMY_PlayerSpawn(client)
 {
+	if (!g_bActive)return;
 	Count[client] = Army_GetNumAtributes(client,"WeaponCount",0);
 	if(Count[client]>0)ShowMenu(client);
 }
 ShowMenu(client)
 {
+	if (!g_bActive)return;
 	decl String:buffer[2][256];
 	new i = 0;
 	new Handle:menu = CreateMenu(Handle_WeaponMenu);
@@ -88,6 +98,7 @@ public Handle_WeaponMenu(Handle:menu, MenuAction:action, client, iSlot)
 }
 ChangeWeapon(client, slot, String:WP[])
 {
+	if (!g_bActive)return;
 	new weaponIdx;
 	if ((weaponIdx = GetPlayerWeaponSlot(client, slot)) > 0)
 	{

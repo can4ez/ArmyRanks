@@ -5,39 +5,46 @@
 
 public Plugin:myinfo = 
 {
-    name = "[ ARMY ] Effects",
-    author = "sahapro33",
-    description = "",
-    version = "1.1"
+	name = "[ ARMY ] Effects", 
+	author = "sahapro33", 
+	description = "", 
+	version = "1.2"
 }
 
 new Handle:rankup_effect;
 new Handle:reset_effect;
 new Handle:setkills_or_setdeaths_effect;
 
-public OnPluginStart()
+new bool:g_bActive = false;
+public ARMY_OnLoad()
 {
-    rankup_effect        = CreateConVar("rankup_effect", "1",    "Включить эффект при получении звания?");
-    reset_effect        = CreateConVar("reset_effect", "1",    "Включить эффект при обнулении?");
-    setkills_or_setdeaths_effect        = CreateConVar("setkills_or_setdeaths_effect", "1",    "Включить эффект при установки убийств или смертей (через админку)?");
+	LoadTranslations("army_ranks/modules.phrases.txt");
+	g_bActive = (Army_GetMapSettings("Effects") == 1);
 }
 
-public ARMY_ArmyUp(client,const String:sNewRank[],mode)
+public OnPluginStart()
 {
-    if(client>0 && client<=MaxClients && IsClientConnected(client) && IsClientInGame(client))
-    {
-        if(mode==MODE_RANK_UP)
-		{            
-			if(GetConVarBool(rankup_effect))
+	rankup_effect = CreateConVar("rankup_effect", "1", "Включить эффект при получении звания?");
+	reset_effect = CreateConVar("reset_effect", "1", "Включить эффект при обнулении?");
+	setkills_or_setdeaths_effect = CreateConVar("setkills_or_setdeaths_effect", "1", "Включить эффект при установки убийств или смертей (через админку)?");
+}
+
+public ARMY_ArmyUp(client, const String:sNewRank[], mode)
+{
+	if (g_bActive && client > 0 && client <= MaxClients && IsClientConnected(client) && IsClientInGame(client))
+	{
+		if (mode == MODE_RANK_UP)
+		{
+			if (GetConVarBool(rankup_effect))
 			{
 				decl Float:p[3];
 				GetClientAbsOrigin(client, p);
 				SpotLight3(client, p);
 			}
 		}
-		else if(mode==MODE_RANK_RESET)
+		else if (mode == MODE_RANK_RESET)
 		{
-			if(GetConVarBool(reset_effect))
+			if (GetConVarBool(reset_effect))
 			{
 				decl Float:p[3];
 				GetClientAbsOrigin(client, p);
@@ -59,9 +66,9 @@ public ARMY_ArmyUp(client,const String:sNewRank[],mode)
 				AcceptEntityInput(entity, "FireUser1");
 			}
 		}
-		else if(mode==MODE_SET_KILLS || mode==MODE_SET_DEATHS)
+		else if (mode == MODE_SET_KILLS || mode == MODE_SET_DEATHS)
 		{
-			if(GetConVarBool(setkills_or_setdeaths_effect))
+			if (GetConVarBool(setkills_or_setdeaths_effect))
 			{
 				decl Float:p[3];
 				GetClientAbsOrigin(client, p);
@@ -84,7 +91,7 @@ public ARMY_ArmyUp(client,const String:sNewRank[],mode)
 				return;
 			}
 		}
-    }
+	}
 }
 
 SpotLight3(client, Float:center[3])
@@ -132,7 +139,7 @@ SpotLight3Go(Float:p[3], String:RotatorName[])
 	DispatchKeyValue(entity, "SpotlightWidth", "25");
 	DispatchKeyValue(entity, "rendermode", "5");
 	new String:sRGB[10];
-	FormatEx(sRGB,sizeof(sRGB),"%d %d %d",GetRandomInt(0,255),GetRandomInt(0,255),GetRandomInt(0,255));
+	FormatEx(sRGB, sizeof(sRGB), "%d %d %d", GetRandomInt(0, 255), GetRandomInt(0, 255), GetRandomInt(0, 255));
 	DispatchKeyValue(entity, "rendercolor", sRGB);
 	DispatchKeyValue(entity, "renderamt", "255");
 	DispatchKeyValue(entity, "scale", "5");
@@ -186,4 +193,4 @@ Get3Coords_p(entity, Float:pos[3], Float:dist)
 	pos[1] = p[1];
 	pos[2] = p[2];
 	return;
-}
+} 

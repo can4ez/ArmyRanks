@@ -1,36 +1,45 @@
 #include <army_ranks>
 
-new iHp[MAXPLAYERS+1];
+new iHp[MAXPLAYERS + 1];
 
 public Plugin:myinfo = 
 {
-    name = "[ ARMY ] Здоровье/Health",
-    author = "sahapro33",
-    description = "",
-    version = "1.3"
+	name = "[ ARMY ] Здоровье/Health", 
+	author = "sahapro33", 
+	description = "", 
+	version = "1.4"
 }
-public ARMY_OnLoad() LoadTranslations("army_ranks/modules.phrases.txt");
-public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
+
+new bool:g_bActive = false;
+public ARMY_OnLoad()
 {
-	if((iHp[client]=Army_GetNumAtributes(client,"Hp",100))>0&&iHp[client]!=100)
+	LoadTranslations("army_ranks/modules.phrases.txt");
+	g_bActive = (Army_GetMapSettings("Hp") == 1);
+}
+
+public ARMY_PlayerConnect(client, g_sRank[], g_iKills[], g_iDeaths[])
+{
+	if ((iHp[client] = Army_GetNumAtributes(client, "Hp", 100)) > 0 && iHp[client] != 100)
 	{
 		decl String:Buffer[100];
-		FormatEx(Buffer,sizeof(Buffer),"%t: %d","HP",iHp[client]);
-		Army_RegisterItem(client,"Hp",Buffer);
+		FormatEx(Buffer, sizeof(Buffer), "%t: %d", "HP", iHp[client]);
+		Army_RegisterItem(client, "Hp", Buffer);
 	}
 }
 
 public ARMY_ArmyUp(client)
 {
-	if((iHp[client]=Army_GetNumAtributes(client,"Hp",100))>0&&iHp[client]!=100)
+	if (!g_bActive)return;
+	if ((iHp[client] = Army_GetNumAtributes(client, "Hp", 100)) > 0 && iHp[client] != 100)
 	{
 		decl String:Buffer[100];
-		FormatEx(Buffer,sizeof(Buffer),"%t: %d","HP",iHp[client]);
-		Army_RegisterItem(client,"Hp",Buffer);
+		FormatEx(Buffer, sizeof(Buffer), "%t: %d", "HP", iHp[client]);
+		Army_RegisterItem(client, "Hp", Buffer);
 	}
 }
 
 public ARMY_PlayerSpawn(client)
 {
-	if((iHp[client]=Army_GetNumAtributes(client,"Hp",100))>0&&iHp[client]!=100) SetEntityHealth(client,iHp[client]);
-}
+	if (!g_bActive)return;
+	if ((iHp[client] = Army_GetNumAtributes(client, "Hp", 100)) > 0 && iHp[client] != 100)SetEntityHealth(client, iHp[client]);
+} 

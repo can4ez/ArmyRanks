@@ -8,14 +8,18 @@ public Plugin:myinfo =
     name = "[ ARMY ] Броня/Armor",
     author = "sahapro33",
     description = "",
-    version = "1.3"
+    version = "1.4"
 }
 
-public ARMY_OnLoad() LoadTranslations("army_ranks/modules.phrases.txt");
-
+new bool:g_bActive = false;
+public ARMY_OnLoad()
+{
+	LoadTranslations("army_ranks/modules.phrases.txt");
+	g_bActive = (Army_GetMapSettings("Armor") == 1);
+}
 public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
 {
-	if((iArmor[client] = Army_GetNumAtributes(client,"Armor",-1)) > 0)
+	if(g_bActive && (iArmor[client] = Army_GetNumAtributes(client,"Armor",-1)) > 0)
 	{
 		decl String:Buffer[100];
 		// FormatEx(Buffer,sizeof(Buffer),"Броня+Шлем: %d",iArmor[client]);
@@ -26,7 +30,7 @@ public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])
 
 public ARMY_ArmyUp(client)
 {
-	if((iArmor[client] = Army_GetNumAtributes(client,"Armor",-1)) > 0)
+	if(g_bActive && (iArmor[client] = Army_GetNumAtributes(client,"Armor",-1)) > 0)
 	{
 		decl String:Buffer[100];
 		// FormatEx(Buffer,sizeof(Buffer),"Броня+Шлем: %d",iArmor[client]);
@@ -37,7 +41,7 @@ public ARMY_ArmyUp(client)
 
 public ARMY_PlayerSpawn(client)
 {
-	if((iArmor[client]=Army_GetNumAtributes(client,"Armor",0))>0)
+	if(g_bActive && (iArmor[client]=Army_GetNumAtributes(client,"Armor",0))>0)
 	{
 		GivePlayerItem(client,"item_assaultsuit");
 		SetEntProp(client, Prop_Data, "m_ArmorValue", iArmor[client]);

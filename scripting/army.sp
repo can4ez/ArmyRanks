@@ -7,7 +7,7 @@
 
 public Plugin:myinfo =
 {
-	name 		= "[ ARMY ] Core 2.0.4PR",
+	name 		= "[ ARMY ] Core 2.0.5 Beta",
 	author 		= "sahapro33",
 	description = "",
 	version 	= __DATE__,
@@ -21,6 +21,7 @@ public Plugin:myinfo =
 #include "army/api.sp"
 
 #include "army/events/OnPluginStart.sp"
+#include "army/events/OnMapStart.sp"
 #include "army/events/OnConfigsExecuted.sp"
 #include "army/events/OnClientPutInServer.sp"
 #include "army/events/OnClientDisconnect.sp"

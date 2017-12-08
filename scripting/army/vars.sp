@@ -18,6 +18,7 @@ new Handle: hKv,
 	
 	Handle: g_hArrayInfoMenu[MAXPLAYERS+1],
 	Handle: g_hArraySortMenu,
+	Handle: g_hKvMapSettings,
 
 	String:	g_sAuth[MAXPLAYERS+1][32],
 	String:	g_sRank[MAXPLAYERS+1][32*2],
