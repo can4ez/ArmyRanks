@@ -209,7 +209,7 @@ public Native_GetLockTeam(Handle:plugin, numParams)
 public Native_GetMapSettings(Handle:plugin, numParams)
 {
 	decl String:buffer[100];
-	if (GetNativeString(3, buffer, sizeof(buffer)) == SP_ERROR_NONE)
+	if (GetNativeString(1, buffer, sizeof(buffer)) == SP_ERROR_NONE)
 	{
 		return KvGetNum(g_hKvMapSettings, buffer, 1);
 	}

@@ -29,7 +29,7 @@ CreateMapConfig(String:map[], len)
 	{
 		new Handle:kv = CreateKeyValues("map_settings");
 		KvSetString(kv, "map", map);
-		KvJumpToKey(kv, "settings");
+		KvJumpToKey(kv, "settings", true);
 		KvSetNum(kv, "Hp", 1);
 		KvSetNum(kv, "Armor", 1);
 		KvSetNum(kv, "Gravity", 1);
@@ -47,6 +47,7 @@ CreateMapConfig(String:map[], len)
 		KvSetNum(kv, "Effects", 1);
 		KvSetNum(kv, "Sheild", 1);
 		KvSetNum(kv, "Damage", 1);
+		KvRewind(kv);
 		KeyValuesToFile(kv, path);
 		CloseHandle(kv);
 		kv = INVALID_HANDLE;

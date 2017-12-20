@@ -20,6 +20,9 @@ new bool:g_bActive = false;
 public ARMY_OnLoad()
 {
 	LoadTranslations("army_ranks/modules.phrases.txt");
+}
+public OnMapStart()
+{
 	g_bActive = (Army_GetMapSettings("RegenHp") == 1);
 }
 public OnPluginStart()

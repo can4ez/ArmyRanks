@@ -14,6 +14,9 @@ new bool:g_bActive_Model_CT = false;
 new bool:g_bActive_Model_T = false;
 public ARMY_OnLoad()
 {
+}
+public OnMapStart()
+{
 	g_bActive_Model_CT = (Army_GetMapSettings("Model_CT") == 1);
 	g_bActive_Model_T = (Army_GetMapSettings("Model_T") == 1);
 }

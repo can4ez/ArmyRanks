@@ -15,6 +15,9 @@ new bool:g_bActive = false;
 public ARMY_OnLoad()
 {
 	LoadTranslations("army_ranks/modules.phrases.txt");
+}
+public OnMapStart()
+{
 	g_bActive = (Army_GetMapSettings("Armor") == 1);
 }
 public ARMY_PlayerConnect(client,g_sRank[],g_iKills[],g_iDeaths[])

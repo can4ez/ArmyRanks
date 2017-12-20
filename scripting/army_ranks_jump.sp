@@ -19,6 +19,9 @@ new bool:g_bActive_LongJump = false;
 public ARMY_OnLoad()
 {
 	LoadTranslations("army_ranks/modules.phrases.txt");
+}
+public OnMapStart()
+{
 	g_bActive_Bhop = (Army_GetMapSettings("Bhop") == 1);
 	g_bActive_LongJump = (Army_GetMapSettings("LongJump") == 1);
 }

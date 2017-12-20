@@ -22,6 +22,9 @@ new bool:g_bActive_Smoke = false;
 public ARMY_OnLoad()
 {
 	LoadTranslations("army_ranks/modules.phrases.txt");
+}
+public OnMapStart()
+{
 	g_bActive_He = (Army_GetMapSettings("He") == 1);
 	g_bActive_Flash = (Army_GetMapSettings("Flash") == 1);
 	g_bActive_Smoke = (Army_GetMapSettings("Smoke") == 1);
