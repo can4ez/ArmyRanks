@@ -14,10 +14,10 @@ new	String: PrefixColor[MAXPLAYERS+1][20],
 public Plugin:myinfo = 
 {
     name = "[ ARMY ] Чат/Chat",
-	author = "Саша Шеин | vk.com/sahapro33", 
-	description = "Сообщения о необычных убийствах", 
-	version = "0.1 Beta", 
-	url = "vk.com/sahapro33"
+	author = "sahapro33", 
+	description = "", 
+	version = "1.2", 
+	url = ""
 }
 
 public OnPluginStart()
@@ -53,7 +53,7 @@ public Action:Command_Say_Team(client, const String:command[], argc)
 		{
 			if (IsClientInGame(i)&&GetClientTeam(client)==GetClientTeam(i))
 			{
-				CPrintToChatEx(i,client,sMessage);
+				Color_PrintToChatEx(i,client,sMessage);
 			}
 		}
 		return Plugin_Handled;
@@ -77,19 +77,19 @@ public Action:Command_Say(client, const String:command[], argc)
 		if ( IsPlayerAlive(client) )
 		{			
 			Format(sMessage, 500, "{slategrey}[%s%s{slategrey}] %s%s{default}: %s%s",PrefixColor[client],g_sRank[client],NameColor[client],sName,TextColor[client],sMessage);
-			CPrintToChatAllEx(client,sMessage);
+			Color_PrintToChatAllEx(client,client,sMessage);
 		}
 		else
 		{
 			if ( GetClientTeam(client) > 1  )
 			{
 				Format(sMessage, 500, "%s*УБИТ* {slategrey}[%s%s{slategrey}] %s%s{default}: %s%s",DeathColor[client],PrefixColor[client],g_sRank[client],NameColor[client],sName,TextColor[client],sMessage);
-				CPrintToChatAllEx(client,sMessage);
+				Color_PrintToChatAllEx(client,client,sMessage);
 			}
 			else
 			{
 				Format(sMessage, 500, "%s*СПЕК* {slategrey}[%s%s{slategrey}] %s%s{default}: %s%s",SpecColor[client],PrefixColor[client],g_sRank[client],NameColor[client],sName,TextColor[client],sMessage);
-				CPrintToChatAllEx(client,sMessage);		
+				Color_PrintToChatAllEx(client,client,sMessage);		
 			}
 		}
 		return Plugin_Handled;
