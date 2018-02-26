@@ -1,5 +1,10 @@
 "Phrases"
 {
+	"FAST_RELOAD"
+	{
+		"en" "FastReload"
+		"ru" "Быстрая перезарядка"
+	}
 	"ARMOR"
 	{
 		"en" "Armor"

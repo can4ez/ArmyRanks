@@ -1,12 +1,7 @@
 #include <army_ranks>
 #include <basecomm>
 
-#define MORE_COLORS
-#if defined MORE_COLORS
- #include <morecolors>
-#else
- #include <colors>
-#endif
+ #include "include/colors.inc"
 
 new	String: PrefixColor[MAXPLAYERS+1][20],
 	String: NameColor[MAXPLAYERS+1][20],
@@ -19,9 +14,10 @@ new	String: PrefixColor[MAXPLAYERS+1][20],
 public Plugin:myinfo = 
 {
     name = "[ ARMY ] Чат/Chat",
-    author = "sahapro33",
-    description = "",
-    version = "1.1 BaseComm"
+	author = "Саша Шеин | vk.com/sahapro33", 
+	description = "Сообщения о необычных убийствах", 
+	version = "0.1 Beta", 
+	url = "vk.com/sahapro33"
 }
 
 public OnPluginStart()

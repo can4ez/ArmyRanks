@@ -47,6 +47,7 @@ CreateMapConfig(String:map[], len)
 		KvSetNum(kv, "Effects", 1);
 		KvSetNum(kv, "Sheild", 1);
 		KvSetNum(kv, "Damage", 1);
+		KvSetNum(kv, "FastReload", 1);
 		KvRewind(kv);
 		KeyValuesToFile(kv, path);
 		CloseHandle(kv);
