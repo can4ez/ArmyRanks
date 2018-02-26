@@ -7,7 +7,7 @@
 
 public Plugin:myinfo =
 {
-	name 		= "[ ARMY ] Core 2.0.5 Beta",
+	name 		= "[ ARMY ] Core 2.0.6 Beta",
 	author 		= "sahapro33",
 	description = "",
 	version 	= __DATE__,
